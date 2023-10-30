@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import mysql.connector
 from tkinter import messagebox
+from tkinter import PhotoImage
 
 try:
     # Conexión a la base de datos
@@ -17,9 +18,12 @@ except mysql.connector.Error as error:
 
 # Función para crear la "Ventana de Inicio"
 def ventanaInicio():
+    
     ventana = tk.Tk()
+    
     ventana.geometry("400x400")
     ventana.title("Inicio de sesión")
+
 
     # Etiquetas y campos de entrada
     nombreLabel = ttk.Label(text="Nombre de usuario:")
@@ -58,6 +62,7 @@ def ventanaInicio():
 
         else:
             messagebox.showerror("Error", "Nombre de usuario o contraseña incorrectos.")
+            return resultado
 
         cursor.close()
         conexion.close()
@@ -69,7 +74,6 @@ def ventanaInicio():
 
     ventana.mainloop()
 
-    #Funcion Guardar Datos
 
 # Función para crear la "Ventana 2"
 def ventana2():
@@ -85,6 +89,10 @@ def ventana2():
         Apellido = texBoxApellido.get()
         Numero = texBoxNumero.get()
         Direccion = texBoxDireccion.get()
+
+        if not id or not Nombre or not Apellido or not Numero or not Direccion:
+            messagebox.showerror("Error", "Por favor, complete todos los campos.")
+            return  # Salir de la función si hay campos vacíos
 
     # Crear un cursor para interactuar con la base de datos
         cursor = conexion.cursor()
@@ -202,6 +210,7 @@ def ventana2():
         texBoxApellido.delete(0, 'end')
         texBoxNumero.delete(0, 'end')
         texBoxDireccion.delete(0, 'end')
+        
 
 
 
@@ -209,7 +218,7 @@ def ventana2():
     groupBox.grid(row=0,column=0,padx=10,pady=10)
 
     labelid = tk.Label(groupBox,text="ID",width=13,font=("arial",12)).grid(row=0,column=0)
-    texBoxid = tk.Entry(groupBox)
+    texBoxid = tk.Entry(groupBox, validate="key")
     texBoxid.grid(column=1,row=0)
 
     LabelNombres =tk.Label(groupBox,text="Nombre:",width=13,font=("arial",12)).grid(row=1,column=0)
@@ -259,3 +268,4 @@ def ventana2():
 
 # Llamar a la función para mostrar la "Ventana de Inicio"
 ventanaInicio()
+
